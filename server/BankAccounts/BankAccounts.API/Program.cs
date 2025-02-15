@@ -3,9 +3,11 @@ using BankAccounts.API.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddContext(builder.Configuration);
 builder.Services.AddSwaggerConfiguration();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddInfraServices();
+builder.Services.AddApplicationServices();
 
 
 var app = builder.Build();
