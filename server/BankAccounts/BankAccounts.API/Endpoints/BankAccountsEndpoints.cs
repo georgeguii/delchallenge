@@ -9,8 +9,8 @@ public static class BankAccountsEndpoints
     {
         var bankAccountRoute = route.MapGroup("bank-accounts");
 
-        bankAccountRoute.MapPost("/", async ([FromBody] CreateLocalityRequest request,
-                                         [FromServices] ICreateLocalityHandler handler,
+        bankAccountRoute.MapPost("/", async ([FromBody] dynamic request,
+                                         [FromServices] dynamic handler,
                                          CancellationToken cancellationToken) =>
         {
             var response = await handler.Handle(request, cancellationToken);
@@ -21,9 +21,9 @@ public static class BankAccountsEndpoints
             if (response.StatusCode == HttpStatusCode.Conflict)
                 return Results.Conflict(response);
 
-            return Results.Created("localities/{id}", response);
+            return Results.Created("bank-accounts/{id}", response);
         })
-            .Produces(StatusCodes.Status201Created, typeof(CreatedLocalitySuccessfully))
+            .Produces(StatusCodes.Status201Created)
             .WithOpenApi(operation => new(operation)
             {
                 Summary = "Registro de uma nova conta.",
