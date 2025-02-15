@@ -1,4 +1,4 @@
-﻿using BankAccounts.Domain.Enums;
+﻿using BankAccounts.Enums;
 
 namespace BankAccounts.Domain.Entities;
 

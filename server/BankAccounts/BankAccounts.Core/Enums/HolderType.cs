@@ -1,4 +1,4 @@
-﻿namespace BankAccounts.Domain.Enums;
+﻿namespace BankAccounts.Enums;
 
 public enum HolderType
 {
