@@ -12,7 +12,7 @@ public static class DependencyInjection
 {
     public static void AddContext(this IServiceCollection services, IConfiguration configuration)
     {
-        var connection = configuration.GetConnectionString("Database") ?? throw new NotConnectionDefinedException($"Nenhuma conexão foi definida com o banco de dados.");
+        var connection = configuration.GetConnectionString("Database") ?? throw new NotConnectionDefinedException($"Nenhuma conexão com o banco de dados foi definida.");
         services.AddDbContext<BankAccountsContext>(options => options.UseSqlServer(connection));
     }
 
