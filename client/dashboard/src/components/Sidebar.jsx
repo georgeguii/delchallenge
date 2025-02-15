@@ -12,12 +12,6 @@ const Sidebar = () => {
               <span className="text">Dashboard</span>
             </a>
           </li>
-          <li>
-            <a href="#">
-              <i className="bx bxs-shopping-bag-alt"></i>
-              <span className="text">Backoffice</span>
-            </a>
-          </li>
         </ul>
       </section>
     );
