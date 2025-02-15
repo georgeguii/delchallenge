@@ -1,4 +1,5 @@
-﻿using BankAccounts.Application.UseCases.CreateBankAccount;
+﻿using BankAccounts.API.DTO;
+using BankAccounts.Application.UseCases.CreateBankAccount;
 using BankAccounts.Domain.Entities;
 using BankAccounts.Enums;
 using BankAccounts.Infra.Data.Context;
@@ -100,15 +101,15 @@ public static class BankAccountsEndpoints
         .WithTags("Bank Accounts");
 
         bankAccountRoute.MapPut("/holder/{accountId}/email", async (
-        [FromRoute] string accountId,
-        [FromBody] string newEmail,
+        [FromRoute] int accountId,
+        [FromBody] UpdateEmailRequest request,
         [FromServices] BankAccountsContext dbContext,
         CancellationToken cancellationToken) =>
         {
-            var account = await dbContext.BankAccounts.FindAsync(new { accountId }, cancellationToken);
+            var account = await dbContext.BankAccounts.FirstOrDefaultAsync(x => x.Id == accountId);
             if (account is null) return Results.NotFound();
 
-            account.UpdateEmail(newEmail);
+            account.UpdateEmail(request.Email);
             await dbContext.SaveChangesAsync(cancellationToken);
             return Results.NoContent();
         })
@@ -122,15 +123,15 @@ public static class BankAccountsEndpoints
         .WithTags("Bank Accounts");
 
         bankAccountRoute.MapPut("/{accountId}/status", async (
-            [FromRoute] string accountId,
-            [FromBody] string newStatus,
+            [FromRoute] int accountId,
+            [FromBody] UpdateStatusRequest request,
             [FromServices] BankAccountsContext dbContext,
             CancellationToken cancellationToken) =>
         {
-            var account = await dbContext.BankAccounts.FindAsync(new { accountId }, cancellationToken);
+            var account = await dbContext.BankAccounts.FirstOrDefaultAsync(x => x.Id == accountId);
             if (account is null) return Results.NotFound();
 
-            if (!AccountStatusMapper.TryParse(newStatus, out var parsedStatus))
+            if (!AccountStatusMapper.TryParse(request.Status, out var parsedStatus))
             {
                 return Results.BadRequest("Invalid account status.");
             }
