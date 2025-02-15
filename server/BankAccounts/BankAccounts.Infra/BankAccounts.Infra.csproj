@@ -24,8 +24,4 @@
     <ProjectReference Include="..\BankAccounts.Shared\BankAccounts.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Data\Mapping\" />
-  </ItemGroup>
-
 </Project>
