@@ -1,4 +1,5 @@
 ﻿using BankAccounts.Enums;
+using System.Text.Json.Serialization;
 
 namespace BankAccounts.Domain.Entities;
 
@@ -16,6 +17,7 @@ public class BankAccount
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
 
+    [JsonIgnore]
     public virtual Balance Balance { get; set; }
 
     public BankAccount(string branch,string number, AccountType type,
@@ -32,5 +34,23 @@ public class BankAccount
         Status = AccountStatus.ACTIVE;
         CreatedAt = DateTime.Now;
         Balance = new Balance();
+    }
+
+    public void UpdateEmail(string email)
+    {
+        HolderEmail = email;
+        UpdatedAt = DateTime.Now;
+    }
+
+    public void UpdateStatus(AccountStatus status)
+    {
+        Status = status;
+        UpdatedAt = DateTime.Now;
+    }
+
+    public void FinishAccount()
+    {
+        Status = AccountStatus.FINISHED;
+        UpdatedAt = DateTime.Now;
     }
 }
