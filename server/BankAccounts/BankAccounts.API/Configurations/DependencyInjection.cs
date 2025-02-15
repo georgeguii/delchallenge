@@ -1,10 +1,10 @@
-﻿using BankAccounts.Infra.Data.Context;
+﻿using BankAccounts.Application.UseCases.CreateBankAccount;
+using BankAccounts.Domain.Interfaces.Repositories;
+using BankAccounts.Infra.Data.Context;
+using BankAccounts.Infra.Repositories;
 using BankAccounts.Shared.Exceptions;
-using MediatR;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using System.Globalization;
 
 namespace BankAccounts.API.Configurations;
 
@@ -18,7 +18,14 @@ public static class DependencyInjection
 
     public static void AddApplicationServices(this IServiceCollection services)
     {
-        services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateBankAccountCommand).Assembly));
+        services.AddValidatorsFromAssemblyContaining<CreateBankAccountCommandValidator>();
+    }
 
+    public static void AddInfraServices(this IServiceCollection services)
+    {
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IBankAccountsRepository, BankAccountsRepository>();
+        services.AddScoped<IBalancesRepository, BalancesRepository>();
     }
 }

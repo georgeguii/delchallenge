@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
     <PackageReference Include="MediatR" Version="12.4.1" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.13">
@@ -20,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BankAccounts.Application\BankAccounts.Application.csproj" />
     <ProjectReference Include="..\BankAccounts.Infra\BankAccounts.Infra.csproj" />
   </ItemGroup>
 

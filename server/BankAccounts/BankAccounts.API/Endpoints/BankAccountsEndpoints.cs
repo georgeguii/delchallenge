@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Net;
+﻿using BankAccounts.Application.UseCases.CreateBankAccount;
+using FluentValidation;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BankAccounts.API.Endpoints;
 
@@ -9,19 +11,20 @@ public static class BankAccountsEndpoints
     {
         var bankAccountRoute = route.MapGroup("bank-accounts");
 
-        bankAccountRoute.MapPost("/", async ([FromBody] dynamic request,
-                                         [FromServices] dynamic handler,
-                                         CancellationToken cancellationToken) =>
+        bankAccountRoute.MapPost("/", async (
+            [FromBody] CreateBankAccountCommand request,
+            [FromServices] IMediator mediator,
+            [FromServices] IValidator<CreateBankAccountCommand> validator,
+            CancellationToken cancellationToken) =>
         {
-            var response = await handler.Handle(request, cancellationToken);
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
+            if (!validationResult.IsValid)
+            {
+                return Results.ValidationProblem(validationResult.ToDictionary());
+            }
 
-            if (response.StatusCode == HttpStatusCode.BadRequest)
-                return Results.BadRequest(response);
-
-            if (response.StatusCode == HttpStatusCode.Conflict)
-                return Results.Conflict(response);
-
-            return Results.Created("bank-accounts/{id}", response);
+            var response = await mediator.Send(request, cancellationToken);
+            return Results.Created($"bank-accounts/{response.Id}", response);
         })
             .Produces(StatusCodes.Status201Created)
             .WithOpenApi(operation => new(operation)
