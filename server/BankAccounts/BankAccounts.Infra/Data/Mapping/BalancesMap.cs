@@ -7,7 +7,7 @@ public class BalancesMap : IEntityTypeConfiguration<Balance>
 {
     public void Configure(EntityTypeBuilder<Balance> builder)
     {
-        builder.ToTable("Balances");
+        builder.ToTable("Balances", "bankaccounts");
 
         builder.HasKey(b => b.BankAccountId);
 

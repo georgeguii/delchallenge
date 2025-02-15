@@ -1,4 +1,5 @@
 using BankAccounts.API.Configurations;
+using BankAccounts.API.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +11,7 @@ builder.Services.AddSwaggerConfiguration();
 var app = builder.Build();
 
 var mapGroupV1 = app.MapGroup("v1");
-mapGroupV1.AddLocalityRoutes();
+mapGroupV1.AddBankAccountsEndpoints();
 
 app.UseSwaggerConfiguration(app.Environment);
 app.UseHttpsRedirection();

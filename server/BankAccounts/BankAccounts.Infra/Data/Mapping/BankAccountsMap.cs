@@ -7,7 +7,7 @@ public class BankAccountMap : IEntityTypeConfiguration<BankAccount>
 {
     public void Configure(EntityTypeBuilder<BankAccount> builder)
     {
-        builder.ToTable("BankAccounts");
+        builder.ToTable("BankAccounts", "bankaccounts");
 
         builder.HasKey(b => b.Id);
 
@@ -50,9 +50,5 @@ public class BankAccountMap : IEntityTypeConfiguration<BankAccount>
 
         builder.Property(b => b.UpdatedAt);
 
-        builder.HasOne(b => b.Balance)
-            .WithOne()
-            .HasForeignKey<Balance>(b => b.BankAccountId)
-            .OnDelete(DeleteBehavior.Cascade);
     }
 }
